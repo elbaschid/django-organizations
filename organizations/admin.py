@@ -29,13 +29,12 @@ from organizations.base_admin import BaseOrganizationAdmin
 from organizations.base_admin import BaseOrganizationOwnerAdmin
 from organizations.base_admin import BaseOrganizationUserAdmin
 from organizations.base_admin import BaseOwnerInline
-from organizations.models import Organization
-from organizations.models import OrganizationOwner
-from organizations.models import OrganizationUser
+
+from organizations import get_org_model, get_org_user_model, get_org_owner_model
 
 
 class OwnerInline(BaseOwnerInline):
-    model = OrganizationOwner
+    model = get_org_owner_model()
 
 
 class OrganizationAdmin(BaseOrganizationAdmin):
@@ -50,6 +49,6 @@ class OrganizationOwnerAdmin(BaseOrganizationOwnerAdmin):
     pass
 
 
-admin.site.register(Organization, OrganizationAdmin)
-admin.site.register(OrganizationUser, OrganizationUserAdmin)
-admin.site.register(OrganizationOwner, OrganizationOwnerAdmin)
+admin.site.register(get_org_model(), OrganizationAdmin)
+admin.site.register(get_org_user_model(), OrganizationUserAdmin)
+admin.site.register(get_org_owner_model(), OrganizationOwnerAdmin)

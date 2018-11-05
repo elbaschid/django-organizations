@@ -25,12 +25,12 @@
 
 from itertools import chain
 
+from organizations import get_org_model, get_org_user_model
+
 
 def default_org_model():
     """Encapsulates importing the concrete model"""
-    from organizations.models import Organization
-
-    return Organization
+    return get_org_model()
 
 
 def model_field_names(model):

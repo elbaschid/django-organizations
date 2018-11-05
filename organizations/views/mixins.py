@@ -28,8 +28,10 @@ from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from organizations.models import Organization
-from organizations.models import OrganizationUser
+from organizations import get_org_model, get_org_user_model
+
+Organization = get_org_model()
+OrganizationUser = get_org_user_model()
 
 
 class OrganizationMixin(object):

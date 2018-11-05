@@ -30,3 +30,32 @@ __version__ = "2.0.0a1"
 
 
 default_app_config = "organizations.apps.OrganizationsConfig"
+
+
+ORGANIZATION_MODEL = "organizations.Organization"
+ORGANIZATION_USER_MODEL = "organizations.OrganizationUser"
+ORGANIZATION_OWNER_MODEL = "organizations.OrganizationOwner"
+ORGANIZATION_INVITATION_MODEL = "organizations.OrganizationInvitation"
+
+
+def _get_model_from_setting(name):
+    from django.conf import settings
+    from django.apps import apps
+    org_model = getattr(settings, name, globals()[name])
+    return apps.get_model(*org_model.rsplit(".", 1))
+
+
+def get_org_model():
+    return _get_model_from_setting("ORGANIZATION_MODEL")
+
+
+def get_org_user_model():
+    return _get_model_from_setting("ORGANIZATION_USER_MODEL")
+
+
+def get_org_owner_model():
+    return _get_model_from_setting("ORGANIZATION_OWNER_MODEL")
+
+
+def get_org_invitation_model():
+    return _get_model_from_setting("ORGANIZATION_INVITATION_MODEL")

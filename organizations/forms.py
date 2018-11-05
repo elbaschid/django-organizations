@@ -28,15 +28,14 @@ from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.translation import ugettext_lazy as _
 
+from organizations import get_org_model, get_org_user_model
 from organizations.backends import invitation_backend
-from organizations.models import Organization
-from organizations.models import OrganizationUser
 from organizations.utils import create_organization
 
 
 class OrganizationForm(forms.ModelForm):
     """Form class for updating Organizations"""
-    owner = forms.ModelChoiceField(OrganizationUser.objects.all())
+    owner = forms.ModelChoiceField(get_org_user_model().objects.all())
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
@@ -47,7 +46,7 @@ class OrganizationForm(forms.ModelForm):
         self.fields["owner"].initial = self.instance.owner.organization_user
 
     class Meta:
-        model = Organization
+        model = get_org_model()
         exclude = ("users", "is_active")
 
     def save(self, commit=True):
@@ -69,7 +68,7 @@ class OrganizationUserForm(forms.ModelForm):
     """Form class for updating OrganizationUsers"""
 
     class Meta:
-        model = OrganizationUser
+        model = get_org_user_model()
         exclude = ("organization", "user")
 
     def clean_is_admin(self):
@@ -92,7 +91,7 @@ class OrganizationUserAddForm(forms.ModelForm):
         super(OrganizationUserAddForm, self).__init__(*args, **kwargs)
 
     class Meta:
-        model = OrganizationUser
+        model = get_org_user_model()
         exclude = ("user", "organization")
 
     def save(self, *args, **kwargs):
@@ -129,7 +128,7 @@ class OrganizationUserAddForm(forms.ModelForm):
                 "sender": self.request.user,
             }
         )
-        return OrganizationUser.objects.create(
+        return get_org_user_model().objects.create(
             user=user,
             organization=self.organization,
             is_admin=self.cleaned_data["is_admin"],
@@ -158,7 +157,7 @@ class OrganizationAddForm(forms.ModelForm):
         super(OrganizationAddForm, self).__init__(*args, **kwargs)
 
     class Meta:
-        model = Organization
+        model = get_org_model()
         exclude = ("users", "is_active")
 
     def save(self, **kwargs):

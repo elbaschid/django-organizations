@@ -23,13 +23,13 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from organizations.models import Organization
+from organizations import get_org_model
 from organizations.views.base import ViewFactory
 from organizations.views.mixins import AdminRequiredMixin
 from organizations.views.mixins import MembershipRequiredMixin
 from organizations.views.mixins import OwnerRequiredMixin
 
-bases = ViewFactory(Organization)
+bases = ViewFactory(get_org_model())
 
 
 class OrganizationList(bases.OrganizationList):
