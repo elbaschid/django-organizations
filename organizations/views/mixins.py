@@ -23,6 +23,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
@@ -40,6 +41,9 @@ class OrganizationMixin(object):
     org_model = Organization
     org_context_name = "organization"
 
+    lookup_url_name = getattr(settings, "ORGANIZATION_LOOKUP_URL_NAME", "organization_pk")
+    lookup_model_field = getattr(settings, "ORGANIZATION_LOOKUP_MODEL_FIELD", "pk")
+
     def get_org_model(self):
         return self.org_model
 
@@ -49,8 +53,9 @@ class OrganizationMixin(object):
 
     @cached_property
     def organization(self):
-        organization_pk = self.kwargs.get("organization_pk", None)
-        return get_object_or_404(self.get_org_model(), pk=organization_pk)
+        lookup_value = self.kwargs.get(self.lookup_url_name, None)
+        lookup = {self.lookup_model_field: lookup_value}
+        return get_object_or_404(self.get_org_model(), **lookup)
 
     def get_object(self):
         return self.organization
