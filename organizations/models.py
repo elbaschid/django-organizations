@@ -36,6 +36,7 @@ class Organization(AbstractOrganization):
 
     class Meta(AbstractOrganization.Meta):
         abstract = False
+        swappable = "ORGANIZATION_MODEL"
 
 
 class OrganizationUser(AbstractOrganizationUser):
@@ -45,6 +46,7 @@ class OrganizationUser(AbstractOrganizationUser):
 
     class Meta(AbstractOrganizationUser.Meta):
         abstract = False
+        swappable = "ORGANIZATION_USER_MODEL"
 
 
 class OrganizationOwner(AbstractOrganizationOwner):
@@ -54,9 +56,11 @@ class OrganizationOwner(AbstractOrganizationOwner):
 
     class Meta(AbstractOrganizationOwner.Meta):
         abstract = False
+        swappable = "ORGANIZATION_OWNER_MODEL"
 
 
 class OrganizationInvitation(AbstractOrganizationInvitation):
 
     class Meta(AbstractOrganizationInvitation.Meta):
         abstract = False
+        swappable = "ORGANIZATION_INVITATION_MODEL"
