@@ -112,7 +112,7 @@ class AbstractOrganization(
         return self.name
 
     def get_absolute_url(self):
-        return reverse("organization_detail", kwargs={"organization_pk": self.pk})
+        return reverse("organization_detail", kwargs={"organization_slug": self.slug})
 
     def add_user(self, user, is_admin=False):
         """
@@ -245,7 +245,7 @@ class AbstractOrganizationUser(
     def get_absolute_url(self):
         return reverse(
             "organization_user_detail",
-            kwargs={"organization_pk": self.organization.pk, "user_pk": self.user.pk},
+            kwargs={"organization_slug": self.organization.slug, "user_pk": str(self.user.pk)},
         )
 
 
@@ -274,7 +274,7 @@ class AbstractOrganizationOwner(
         """
         from organizations.exceptions import OrganizationMismatch
 
-        if self.organization_user.organization.pk != self.organization.pk:
+        if self.organization_user.organization.slug != self.organization.slug:
             raise OrganizationMismatch
         else:
             super(AbstractBaseOrganizationOwner, self).save(*args, **kwargs)

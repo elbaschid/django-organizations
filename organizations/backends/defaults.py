@@ -321,7 +321,7 @@ class InvitationBackend(BaseBackend):
         # TODO enable naming based on a model?
         return [
             url(
-                r"^(?P<user_id>[\d]+)-(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$",
+                r"^(?P<user_id>[\d\-a-f]+)-(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$",
                 view=self.activate_view,
                 name="invitations_register",
             )

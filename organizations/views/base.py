@@ -117,7 +117,7 @@ class BaseOrganizationUserCreate(OrganizationMixin, CreateView):
     def get_success_url(self):
         return reverse(
             "organization_user_list",
-            kwargs={"organization_pk": self.object.organization.pk},
+            kwargs={"organization_slug": self.object.organization.slug},
         )
 
     def get_form_kwargs(self):
